@@ -5,10 +5,52 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NoteApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1000" Width="600"
+        Title="MainWindow" Height="900" Width="600"
         AllowsTransparency="True" WindowStyle="None"
-        ResizeMode="NoResize" FontFamily="Fonts/#Dosis">
+        ResizeMode="NoResize" FontFamily="Fonts/#Dosis"
+        Background="#cfcecc" MouseDown="Window_MouseDown">
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="AddNewNoteButton">
+            <Setter Property="Background" Value="#f5a833"/>
+            <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderThickness="0" CornerRadius="36"
+                                Width="108" Height="108">
+                            <ContentPresenter
+                                HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>  
+            </Setter>
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Button.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation To="#f79602"
+                                            Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)"
+                                            Duration="0:0:0.35"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Button.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation To="#f5a833"
+                                            Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)"
+                                            Duration="0:0:0.35"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
-        
+
+        <Button Style="{StaticResource AddNewNoteButton}" VerticalAlignment="Bottom" 
+                HorizontalAlignment="Right" Margin="24"/>
+
     </Grid>
 </Window>
