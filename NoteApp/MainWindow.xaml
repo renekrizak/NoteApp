@@ -46,11 +46,40 @@
                 </EventTrigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="TextBox" x:Key="SearchNoteBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="FlowDirection" Value="LeftToRight"/>
+            <Setter Property="TextAlignment" Value="Left"/>
+            <Setter Property="FontFamily" Value="Fonts/#Dosis"/>
+            <Setter Property="FontSize" Value="54"/>
+            <Setter Property="Width" Value="400"/>
+            <Setter Property="Height" Value="80"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Width="400"
+                                Height="80" CornerRadius="12"
+                                BorderThickness="3" BorderBrush="Black"
+                                Background="{TemplateBinding Background}"
+                                Opacity="0.6">
+                            <ContentPresenter HorizontalAlignment="Left"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
     </Window.Resources>
     <Grid>
 
         <Button Style="{StaticResource AddNewNoteButton}" VerticalAlignment="Bottom" 
                 HorizontalAlignment="Right" Margin="24"/>
+
+        
+        
+        <TextBox Style="{StaticResource SearchNoteBox}" />
+        
 
     </Grid>
 </Window>
