@@ -13,7 +13,7 @@
         <Style TargetType="Button" x:Key="AddNewNoteButton">
             <Setter Property="Background" Value="#f5a833"/>
             <Setter Property="Cursor" Value="Hand"/>
-                <Setter Property="Template">
+            <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}"
@@ -23,7 +23,7 @@
                                 HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
-                </Setter.Value>  
+                </Setter.Value>
             </Setter>
             <Style.Triggers>
                 <EventTrigger RoutedEvent="Button.MouseEnter">
@@ -51,35 +51,61 @@
             <Setter Property="FlowDirection" Value="LeftToRight"/>
             <Setter Property="TextAlignment" Value="Left"/>
             <Setter Property="FontFamily" Value="Fonts/#Dosis"/>
-            <Setter Property="FontSize" Value="54"/>
+            <Setter Property="FontSize" Value="48"/>
             <Setter Property="Width" Value="400"/>
-            <Setter Property="Height" Value="80"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TextBox">
-                        <Border Width="400"
-                                Height="80" CornerRadius="12"
-                                BorderThickness="3" BorderBrush="Black"
-                                Background="{TemplateBinding Background}"
-                                Opacity="0.6">
-                            <ContentPresenter HorizontalAlignment="Left"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-
-            </Setter>
-
+            <Setter Property="Height" Value="70"/>
+            <Setter Property="BorderThickness" Value="0"/>
         </Style>
     </Window.Resources>
     <Grid>
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
         <Button Style="{StaticResource AddNewNoteButton}" VerticalAlignment="Bottom" 
-                HorizontalAlignment="Right" Margin="24"/>
+                HorizontalAlignment="Right" Margin="24" Grid.Row="2"/>
 
-        
-        
-        <TextBox Style="{StaticResource SearchNoteBox}" />
-        
+        <Border Width="400" Height="80" 
+                CornerRadius="12" BorderThickness="3"
+                BorderBrush="Black" Background="White" Opacity="0.6">
+            <TextBox Style="{StaticResource SearchNoteBox}" Background="Transparent"
+                    >
+                <TextBox.Triggers>
+                    <EventTrigger RoutedEvent="TextBox.MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="SearchNotesLabel"
+                                                 Storyboard.TargetProperty="Opacity"
+                                                 From="0.55"
+                                                 To="0"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="TextBox.MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="SearchNotesLabel"
+                                                 Storyboard.TargetProperty="Opacity"
+                                                 From="0"
+                                                 To="0.55"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </TextBox.Triggers>
+            </TextBox>
+        </Border>
+        <Label Name="SearchNotesLabel" Grid.Row="0" Content="Search notes"
+               HorizontalAlignment="Left" VerticalAlignment="Center"
+               Margin="105,40,0,34.6" FontFamily="Fonts/#Dosis"
+               FontSize="42" Height="70" Width="380"
+               Opacity="0.55" IsHitTestVisible="False"
+               Visibility="Visible"
+               />
 
     </Grid>
 </Window>
