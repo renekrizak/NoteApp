@@ -56,18 +56,19 @@
             <Setter Property="Height" Value="70"/>
             <Setter Property="BorderThickness" Value="0"/>
         </Style>
-        <Style TargetType="Label" x:Key="NoteTitleWithBorder">
+        <Style TargetType="Label" x:Key="ImportantNoteTitleWithBorder">
             <Setter Property="Background" Value="#f5f3f0"/>
             <Setter Property="FontFamily" Value="Fonts/#Dosis"/>
             <Setter Property="FontSize" Value="26"/>
             <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="VerticalContentAlignment" Value="Top"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Label">
                         <Border Background="{TemplateBinding Background}"
-                                Width="240" Height="220"
+                                Width="240" Height="280"
                                 BorderThickness="0"
                                 CornerRadius="28"
                                 Opacity="1">
@@ -77,8 +78,8 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-
         </Style>
+        
     </Window.Resources>
     <Grid>
 
@@ -91,21 +92,43 @@
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
 
+        <Label Grid.Row="0" Content="Important Notes"
+               FontFamily="Fonts/#Dosis" FontWeight="Bold"
+               FontSize="20"
+               HorizontalAlignment="Left" VerticalAlignment="Bottom"
+               Opacity="0.65" Margin="70,2"/>
+
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Label Style="{StaticResource NoteTitleWithBorder}" Grid.Column="0"
+            <Label Style="{StaticResource ImportantNoteTitleWithBorder}" Grid.Column="0"
                    VerticalAlignment="Top" HorizontalAlignment="Center"
-                   Margin="20" Content="Note Title test"/>
+                   Margin="0" Content="Note Title test"/>
+
+            <Label Style="{StaticResource ImportantNoteTitleWithBorder}" Grid.Column="0"
+                   VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                   Margin="0" Content="fdnsauoisfnuoi"/>
+
+            
 
         </Grid>
 
-
-        <Button Style="{StaticResource AddNewNoteButton}" VerticalAlignment="Bottom" 
-                HorizontalAlignment="Right" Margin="0,0,24,24" Grid.Row="2"/>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Style="{StaticResource AddNewNoteButton}" VerticalAlignment="Center"
+                    HorizontalAlignment="Center" Grid.Column="0"/>
+            <Button Style="{StaticResource AddNewNoteButton}" VerticalAlignment="Center"
+                    HorizontalAlignment="Center" Grid.Column="1"/>
+            <Button Style="{StaticResource AddNewNoteButton}" VerticalAlignment="Center"
+                    HorizontalAlignment="Center" Grid.Column="2"/>
+        </Grid>
 
         <Border Width="400" Height="80" 
                 CornerRadius="12" BorderThickness="3"
