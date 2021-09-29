@@ -56,6 +56,29 @@
             <Setter Property="Height" Value="70"/>
             <Setter Property="BorderThickness" Value="0"/>
         </Style>
+        <Style TargetType="Label" x:Key="NoteTitleWithBorder">
+            <Setter Property="Background" Value="#f5f3f0"/>
+            <Setter Property="FontFamily" Value="Fonts/#Dosis"/>
+            <Setter Property="FontSize" Value="26"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Top"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Label">
+                        <Border Background="{TemplateBinding Background}"
+                                Width="240" Height="220"
+                                BorderThickness="0"
+                                CornerRadius="28"
+                                Opacity="1">
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Top"
+                                              Margin="10"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
     </Window.Resources>
     <Grid>
 
@@ -67,8 +90,22 @@
             <RowDefinition Height="8*"/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Label Style="{StaticResource NoteTitleWithBorder}" Grid.Column="0"
+                   VerticalAlignment="Top" HorizontalAlignment="Center"
+                   Margin="20" Content="Note Title test"/>
+
+        </Grid>
+
+
         <Button Style="{StaticResource AddNewNoteButton}" VerticalAlignment="Bottom" 
-                HorizontalAlignment="Right" Margin="24" Grid.Row="2"/>
+                HorizontalAlignment="Right" Margin="0,0,24,24" Grid.Row="2"/>
 
         <Border Width="400" Height="80" 
                 CornerRadius="12" BorderThickness="3"
@@ -82,7 +119,8 @@
                                 <DoubleAnimation Storyboard.TargetName="SearchNotesLabel"
                                                  Storyboard.TargetProperty="Opacity"
                                                  From="0.55"
-                                                 To="0"/>
+                                                 To="0"
+                                                 Duration="0:0:0.25"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger>
@@ -92,7 +130,8 @@
                                 <DoubleAnimation Storyboard.TargetName="SearchNotesLabel"
                                                  Storyboard.TargetProperty="Opacity"
                                                  From="0"
-                                                 To="0.55"/>
+                                                 To="0.55"
+                                                 Duration="0:0:0.85"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger>
