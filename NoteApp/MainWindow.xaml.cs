@@ -14,7 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.SQLite;
-
+using NoteApp;
+    
 namespace NoteApp
 {
     /// <summary>
@@ -37,5 +38,12 @@ namespace NoteApp
             }
         }
 
+        private void createNewNote_Click(object sender, RoutedEventArgs e) //Shows pop-up window to create & save new note.
+        {
+            MakeNewNote_Window newNoteWindow = new MakeNewNote_Window();
+
+            newNoteWindow.Show();
+
+        }
     }
 }
