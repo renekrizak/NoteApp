@@ -13,6 +13,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data.SQLite;
 
 namespace NoteApp
 {
@@ -25,6 +26,8 @@ namespace NoteApp
         {
             InitializeComponent();
         }
+
+        
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {

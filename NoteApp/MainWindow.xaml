@@ -111,9 +111,6 @@
             <Label Style="{StaticResource ImportantNoteTitleWithBorder}" Grid.Column="0"
                    VerticalAlignment="Bottom" HorizontalAlignment="Center"
                    Margin="0" Content="fdnsauoisfnuoi"/>
-
-            
-
         </Grid>
 
         <Grid Grid.Row="2">
@@ -168,6 +165,5 @@
                Opacity="0.55" IsHitTestVisible="False"
                Visibility="Visible"
                />
-
     </Grid>
 </Window>
