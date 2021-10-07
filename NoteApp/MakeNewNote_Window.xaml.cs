@@ -9,13 +9,15 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using NoteApp;
-using Dapper;
-using System.Data;
 using System.Data.SQLite;
-
+using Dapper;
+using NoteApp;
+using System.Configuration;
+using System.Data;
 
 namespace NoteApp
 {
@@ -28,5 +30,25 @@ namespace NoteApp
         {
             InitializeComponent();
         }
+
+
+        private void SaveNoteButtonEvent(object sender, RoutedEventArgs e)
+        {
+            string id = "Default";
+            string title = TitleTextInput.Text.ToString();
+            string noteText = NoteTextInput.Text.ToString();
+            var con = new SQLiteConnection(ConfigurationManager.ConnectionStrings[id].ConnectionString);
+            con.Open();
+
+            var cmd = new SQLiteCommand(con);
+
+            cmd.CommandText = "INSERT INTO [ImportantNote] (Title, NoteText) VALUES ( @title , @noteText)";
+            cmd.Parameters.Add(new SQLiteParameter("@Title", "kokot"));
+            cmd.Parameters.Add(new SQLiteParameter("@NoteText", "funguj6"));
+            cmd.ExecuteNonQuery();
+            con.Close();
+
+        }
     }
 }
+    
