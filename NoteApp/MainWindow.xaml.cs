@@ -45,5 +45,7 @@ namespace NoteApp
             newNoteWindow.Show();
 
         }
+
+
     }
 }

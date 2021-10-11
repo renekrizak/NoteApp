@@ -48,8 +48,27 @@ namespace NoteApp
             cmd.Parameters.Add(new SQLiteParameter("@title", TitleTextInput.Text));
             cmd.Parameters.Add(new SQLiteParameter("@text", NoteTextInput.Text));
             cmd.ExecuteNonQuery();
+            ReadData(conn);
 
+        }
 
+        public void ReadData(SQLiteConnection conn)
+        {
+            SQLiteDataReader read;
+            SQLiteCommand cmd;
+            cmd = conn.CreateCommand();
+            cmd.CommandText = "SELECT * FROM Note";
+            
+
+            read = cmd.ExecuteReader();
+            while(read.Read())
+            {
+                int idTest = read.GetInt32(0);
+                string Title = read.GetString(1);
+                string noteText = read.GetString(2);
+                testLbl.Content = $"{idTest} {Title} \n {noteText}";
+            }
+            conn.Close();
         }
     }
 }

@@ -67,6 +67,9 @@
                HorizontalAlignment="Center" FontFamily="Fonts/#Dosis"
                FontWeight="Bold" Opacity="0.7"
                Margin="0,-3.5,0,0"/>
+        <Label Grid.Row="2" x:Name="testLbl"
+               FontSize="12"
+            />
         <Border  Width="290"
                 Height="230" BorderThickness="2"
                 CornerRadius="12" BorderBrush="Black"
