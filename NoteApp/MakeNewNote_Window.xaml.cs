@@ -31,22 +31,24 @@ namespace NoteApp
             InitializeComponent();
         }
 
+        private static string LoadConnectionString(string id = "Default")
+        {
+            return ConfigurationManager.ConnectionStrings[id].ConnectionString;
+        }
+
 
         private void SaveNoteButtonEvent(object sender, RoutedEventArgs e)
         {
-            string id = "Default";
-            string title = TitleTextInput.Text.ToString();
-            string noteText = NoteTextInput.Text.ToString();
-            var con = new SQLiteConnection(ConfigurationManager.ConnectionStrings[id].ConnectionString);
-            con.Open();
+            SQLiteConnection conn;
+            conn = new SQLiteConnection(LoadConnectionString());
+            conn.Open();
 
-            var cmd = new SQLiteCommand(con);
-
-            cmd.CommandText = "INSERT INTO [ImportantNote] (Title, NoteText) VALUES ( @title , @noteText)";
-            cmd.Parameters.Add(new SQLiteParameter("@Title", "kokot"));
-            cmd.Parameters.Add(new SQLiteParameter("@NoteText", "funguj6"));
+            SQLiteCommand cmd = new SQLiteCommand(conn);
+            cmd.CommandText = "INSERT INTO Note(Title, Text) VALUES (@title, @text)";
+            cmd.Parameters.Add(new SQLiteParameter("@title", TitleTextInput.Text));
+            cmd.Parameters.Add(new SQLiteParameter("@text", NoteTextInput.Text));
             cmd.ExecuteNonQuery();
-            con.Close();
+
 
         }
     }
