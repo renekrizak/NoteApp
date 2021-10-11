@@ -38,9 +38,9 @@ namespace NoteApp
 
 
         private void SaveNoteButtonEvent(object sender, RoutedEventArgs e)
-        {
+        {       
             SQLiteConnection conn;
-            conn = new SQLiteConnection(LoadConnectionString());
+            conn = new SQLiteConnection(LoadConnectionString());  //funkcny zapis do databazy
             conn.Open();
 
             SQLiteCommand cmd = new SQLiteCommand(conn);
@@ -52,7 +52,15 @@ namespace NoteApp
 
         }
 
-        public void ReadData(SQLiteConnection conn)
+        /* Definicia db tabulky
+        CREATE TABLE "Note" (
+	        "ID"	INTEGER NOT NULL UNIQUE,
+	        "Title"	TEXT NOT NULL UNIQUE,
+	        "Text"	TEXT,
+	        PRIMARY KEY("ID" AUTOINCREMENT)
+        ); */
+
+        public void ReadData(SQLiteConnection conn)             //read z databazy
         {
             SQLiteDataReader read;
             SQLiteCommand cmd;
@@ -63,7 +71,7 @@ namespace NoteApp
             read = cmd.ExecuteReader();
             while(read.Read())
             {
-                int idTest = read.GetInt32(0);
+                int idTest = read.GetInt32(0);                  //Precita to data na danom indexe, cize napr ID je index[0
                 string Title = read.GetString(1);
                 string noteText = read.GetString(2);
                 testLbl.Content = $"{idTest} {Title} \n {noteText}";
