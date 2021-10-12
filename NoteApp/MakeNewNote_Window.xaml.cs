@@ -67,7 +67,6 @@ namespace NoteApp
             cmd = conn.CreateCommand();
             cmd.CommandText = "SELECT * FROM Note";
             
-
             read = cmd.ExecuteReader();
             while(read.Read())
             {
