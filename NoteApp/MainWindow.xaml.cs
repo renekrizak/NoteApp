@@ -29,7 +29,7 @@ namespace NoteApp
         {
             InitializeComponent();
         }
-        
+
         private static string LoadConnectionString(string id = "Default")
         {
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;
@@ -52,12 +52,18 @@ namespace NoteApp
         }
 
         private void CreateAndLoadNotes()
-        {
+        { /* 12.10.2021
+           Tato kokotina ma spravit x pocet notes podla toho kolko je rows v databaze a nasledne
+            zobrazit zatial iba title danej poznamky, potrebujem poriesit aby to realne fungovalo,
+            program sice necrashuje ale ked to spustim sa deje holy kokot a urcite sa nezobrazia vytvorene
+            labels ktore by sa mali
+           */
             SQLiteConnection conn = new SQLiteConnection(LoadConnectionString());
             SQLiteCommand cmd = conn.CreateCommand();
-            SQLiteDataReader read = cmd.ExecuteReader();
-
             conn.Open();
+            SQLiteDataReader read;
+            read = cmd.ExecuteReader();
+
             Label noteLabel = new Label();
             Style style = this.FindResource("NoteTitleWithBorder") as Style;
             noteLabel.Style = style;
@@ -65,7 +71,8 @@ namespace NoteApp
             Label[] labels = new Label[numberOfLabels];
 
             cmd.CommandText = "SELECT Title FROM Note WHERE ID = @id";
-            
+
+
 
             for(int i = 0; i < numberOfLabels; i++)
             {
