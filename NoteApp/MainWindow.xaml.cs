@@ -35,41 +35,49 @@ namespace NoteApp
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;
         }
 
-        static SQLiteConnection conn = new SQLiteConnection(LoadConnectionString());
-        static SQLiteCommand cmd = conn.CreateCommand();
-        static SQLiteDataReader read = cmd.ExecuteReader();
-
-        private int GetMaxTableIndex(SQLiteConnection conn, SQLiteCommand cmd, SQLiteDataReader read) 
+        private int GetMaxTableIndex() 
             /*
              Finds highest index of ID in the table and returns it so that 
             i can create and fill the right ammount of labels
              */
         {
+            SQLiteConnection conn = new SQLiteConnection(LoadConnectionString());
+            SQLiteCommand cmd = conn.CreateCommand();
+            SQLiteDataReader read = cmd.ExecuteReader();
             conn.Open();
             cmd.CommandText = "SELECT * FROM Note ORDER BY ID DESC LIMIT 1";
             cmd.ExecuteScalar();
-            return read.GetInt32(GetMaxTableIndex(conn, cmd, read));
+            return read.GetInt32(GetMaxTableIndex());
 
         }
 
         private void CreateAndLoadNotes()
         {
+            SQLiteConnection conn = new SQLiteConnection(LoadConnectionString());
+            SQLiteCommand cmd = conn.CreateCommand();
+            SQLiteDataReader read = cmd.ExecuteReader();
 
-
+            conn.Open();
             Label noteLabel = new Label();
             Style style = this.FindResource("NoteTitleWithBorder") as Style;
             noteLabel.Style = style;
-            int numberOfLabels = GetMaxTableIndex(conn, cmd, read);
+            int numberOfLabels = GetMaxTableIndex();
             Label[] labels = new Label[numberOfLabels];
 
-            cmd.CommandText = "SELECT * FROM Note WHERE ID = @id";
+            cmd.CommandText = "SELECT Title FROM Note WHERE ID = @id";
             
 
             for(int i = 0; i < numberOfLabels; i++)
             {
                 labels[i] = new Label();
                 labels[i].Style = noteLabel.Style;
-                labels[i].Content = read.GetValue(1);
+                string title = read["Title"] != null ? Convert.ToString(read["Title"]) : String.Empty;
+                labels[i].Content = title;
+            }
+
+            for(int i = 0; i < numberOfLabels; i++)
+            {
+                NoteStackPanel.Children.Add(labels[i]);
             }
 
         }

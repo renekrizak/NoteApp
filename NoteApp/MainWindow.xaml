@@ -116,20 +116,7 @@
 
             <ScrollViewer>
                 <StackPanel Name="NoteStackPanel">
-                    <Label Style="{StaticResource NoteTitleWithBorder}" Grid.Column="0"
-                   VerticalAlignment="Top" HorizontalAlignment="Center"
-                   Margin="10" Content="Test Title"/>
-                    
-                    
-                    <Label Style="{StaticResource NoteTitleWithBorder}" Grid.Column="0"
-                   VerticalAlignment="Top" HorizontalAlignment="Center"
-                   Margin="10" Content="Test Title "/>
-                    <Label Style="{StaticResource NoteTitleWithBorder}" Grid.Column="0"
-                   VerticalAlignment="Top" HorizontalAlignment="Center"
-                   Margin="10" Content="Test Title"/>
-                    <Label Style="{StaticResource NoteTitleWithBorder}" Grid.Column="0"
-                   VerticalAlignment="Top" HorizontalAlignment="Center"
-                   Margin="10" Content="Test Title"/>
+                   
                 </StackPanel>
 
             </ScrollViewer>
