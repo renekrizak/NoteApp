@@ -17,6 +17,14 @@ using System.Data.SQLite;
 using NoteApp;
 using System.Configuration;
 
+
+/*
+    13.10.2021 - Potrebujem spravit to, ze ked kliknem na poznamku tak sa mi pravdepodobne objavi nove okno v ktorom
+    bude aj content danej poznamky, dalej potrebujem spravit button ktory je schopny poznamku vymazat a upravit
+    a na koniec spravit search podla titlu poznamky, popripade aj contentu danej poznamky a ukaze ju na vrchu stack panelu.
+
+ */
+
 namespace NoteApp
 {
     /// <summary>
@@ -45,33 +53,42 @@ namespace NoteApp
 
         private int GetMaxTableIndex() 
             /*
-             Finds highest index of ID in the table and returns it so that 
-            i can create and fill the right ammount of labels
+             Funkcia na zistenei najvacsieho IDcka v databaze, nasledne toto maxID vyuzijem na vytvorenie labelov
              */
-        {
+        { 
             SQLiteConnection conn = new SQLiteConnection(LoadConnectionString());
             SQLiteCommand cmd = conn.CreateCommand();
             conn.Open();
             cmd.CommandText = "SELECT rowid from Note order by ROWID DESC limit 1";
             int maxID = Convert.ToInt32(cmd.ExecuteScalar());
             return maxID;
-
-
         }
 
-        private void CreateAndLoadNotes()
-        { /* 12.10.2021
-           Tato kokotina ma spravit x pocet notes podla toho kolko je rows v databaze a nasledne
-            zobrazit zatial iba title danej poznamky, potrebujem poriesit aby to realne fungovalo,
-            program sice necrashuje ale ked to spustim sa deje holy kokot a urcite sa nezobrazia vytvorene
-            labels ktore by sa mali
-           */
+        public string FillLabelTitle(int j) //Funkcia ktora returne title danej poznamky podla ID (index j)
+        {
             SQLiteConnection conn = new SQLiteConnection(LoadConnectionString());
             SQLiteCommand cmd = conn.CreateCommand();
             conn.Open();
             SQLiteDataReader read;
+            cmd.CommandText = "SELECT ID, Title FROM Note WHERE ID=" + j;
+            read = cmd.ExecuteReader();
+            read.Read();
+            string title = read["Title"] != null ? Convert.ToString(read["Title"]) : string.Empty;
+            return title;
+        }
+        private void CreateAndLoadNotes()
+        { /* 13.10.2021
+                Momentalne mi funkcia vytvori spravny pocet notes a nasledne im cez funkciu FillLabelTitle()
+                nacita spravny title z databazy. Potrebujem neskor spravit to, aby notes vytvaralo asynchronne za behu
+                aplikacie a nie iba pocas spustenia aplikacie.
+           */
+            SQLiteConnection conn = new SQLiteConnection(LoadConnectionString());           
+            SQLiteCommand cmd = conn.CreateCommand();           
+            conn.Open();
+           
+            SQLiteDataReader read;
 
-            Label noteLabel = new Label();
+            Label noteLabel = new Label();          //Cast kodu ktora vytvori label + pole pre dane labels
             Style style = this.FindResource("NoteTitleWithBorder") as Style;
             noteLabel.Style = style;
             int numberOfLabels = GetMaxTableIndex();
@@ -79,26 +96,25 @@ namespace NoteApp
 
             cmd.CommandText = "SELECT * FROM Note";
 
-
             read = cmd.ExecuteReader();
-            while (read.Read()) { 
-                for (int i = 0; i < numberOfLabels; i++)
+            while (read.Read()) {                   //Vytvara labels na zaklade poctu ID's v databaze 
+                for (int i = 0, j = 1; i < numberOfLabels; i++, j++)
                 {
                     labels[i] = new Label();
                     labels[i].Style = noteLabel.Style;
-                    string title = read["Title"] != null ? Convert.ToString(read["Title"]) : String.Empty;
+                    string title = FillLabelTitle(j);
                     labels[i].Content = title;
                 }
             }
 
-            for (int i = 0; i < numberOfLabels; i++)
+            for (int i = 0; i < numberOfLabels; i++) //Vlozi a zobrazi labels v stackpanely NoteStackPanel
             {
                 NoteStackPanel.Children.Add(labels[i]);
             }
 
         }
 
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)    //Zakladna drag move funkcionalita aby som vedel s aplikaciou hybat
         {
             if(e.LeftButton == MouseButtonState.Pressed)
             {
@@ -113,7 +129,5 @@ namespace NoteApp
             newNoteWindow.Show();
 
         }
-
-
     }
 }
