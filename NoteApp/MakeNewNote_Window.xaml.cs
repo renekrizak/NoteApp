@@ -49,7 +49,8 @@ namespace NoteApp
             cmd.Parameters.Add(new SQLiteParameter("@text", NoteTextInput.Text));
             cmd.ExecuteNonQuery();
             ReadData(conn);
-
+            TitleTextInput.Text = "";
+            NoteTextInput.Text = "";
         }
 
         /* Definicia db tabulky
@@ -74,6 +75,7 @@ namespace NoteApp
                 string Title = read.GetString(1);
                 string noteText = read.GetString(2);
                 testLbl.Content = $"{idTest} {Title} \n {noteText}";
+
             }
             conn.Close();
         }

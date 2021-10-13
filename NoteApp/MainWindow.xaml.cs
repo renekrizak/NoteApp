@@ -30,6 +30,13 @@ namespace NoteApp
             InitializeComponent();
             CreateAndLoadNotes();
         }
+        /* Definicia db tabulky
+        CREATE TABLE "Note" (
+	        "ID"	INTEGER NOT NULL UNIQUE,
+	        "Title"	TEXT NOT NULL UNIQUE,
+	        "Text"	TEXT,
+	        PRIMARY KEY("ID" AUTOINCREMENT)
+        ); */
 
         private static string LoadConnectionString(string id = "Default")
         {
@@ -45,7 +52,7 @@ namespace NoteApp
             SQLiteConnection conn = new SQLiteConnection(LoadConnectionString());
             SQLiteCommand cmd = conn.CreateCommand();
             conn.Open();
-            cmd.CommandText = "SELECT * FROM Note ORDER BY ID DESC LIMIT 1";
+            cmd.CommandText = "SELECT rowid from Note order by ROWID DESC limit 1";
             int maxID = Convert.ToInt32(cmd.ExecuteScalar());
             return maxID;
 
@@ -68,15 +75,14 @@ namespace NoteApp
             Style style = this.FindResource("NoteTitleWithBorder") as Style;
             noteLabel.Style = style;
             int numberOfLabels = GetMaxTableIndex();
-            Label[] labels = new Label[300];
+            Label[] labels = new Label[numberOfLabels];
 
-            cmd.CommandText = "SELECT Title FROM Note WHERE ID = @id";
-            cmd.Parameters.Add(new SQLiteParameter("@id", GetMaxTableIndex()));
+            cmd.CommandText = "SELECT * FROM Note";
 
 
             read = cmd.ExecuteReader();
             while (read.Read()) { 
-                for (int i = 0; i < 300; i++)
+                for (int i = 0; i < numberOfLabels; i++)
                 {
                     labels[i] = new Label();
                     labels[i].Style = noteLabel.Style;
@@ -85,7 +91,7 @@ namespace NoteApp
                 }
             }
 
-            for (int i = 0; i < 300; i++)
+            for (int i = 0; i < numberOfLabels; i++)
             {
                 NoteStackPanel.Children.Add(labels[i]);
             }
