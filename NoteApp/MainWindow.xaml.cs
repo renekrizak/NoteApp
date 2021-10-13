@@ -28,6 +28,7 @@ namespace NoteApp
         public MainWindow()
         {
             InitializeComponent();
+            CreateAndLoadNotes();
         }
 
         private static string LoadConnectionString(string id = "Default")
@@ -43,11 +44,11 @@ namespace NoteApp
         {
             SQLiteConnection conn = new SQLiteConnection(LoadConnectionString());
             SQLiteCommand cmd = conn.CreateCommand();
-            SQLiteDataReader read = cmd.ExecuteReader();
             conn.Open();
             cmd.CommandText = "SELECT * FROM Note ORDER BY ID DESC LIMIT 1";
-            cmd.ExecuteScalar();
-            return read.GetInt32(GetMaxTableIndex());
+            int maxID = Convert.ToInt32(cmd.ExecuteScalar());
+            return maxID;
+
 
         }
 
@@ -62,27 +63,29 @@ namespace NoteApp
             SQLiteCommand cmd = conn.CreateCommand();
             conn.Open();
             SQLiteDataReader read;
-            read = cmd.ExecuteReader();
 
             Label noteLabel = new Label();
             Style style = this.FindResource("NoteTitleWithBorder") as Style;
             noteLabel.Style = style;
             int numberOfLabels = GetMaxTableIndex();
-            Label[] labels = new Label[numberOfLabels];
+            Label[] labels = new Label[300];
 
             cmd.CommandText = "SELECT Title FROM Note WHERE ID = @id";
+            cmd.Parameters.Add(new SQLiteParameter("@id", GetMaxTableIndex()));
 
 
-
-            for(int i = 0; i < numberOfLabels; i++)
-            {
-                labels[i] = new Label();
-                labels[i].Style = noteLabel.Style;
-                string title = read["Title"] != null ? Convert.ToString(read["Title"]) : String.Empty;
-                labels[i].Content = title;
+            read = cmd.ExecuteReader();
+            while (read.Read()) { 
+                for (int i = 0; i < 300; i++)
+                {
+                    labels[i] = new Label();
+                    labels[i].Style = noteLabel.Style;
+                    string title = read["Title"] != null ? Convert.ToString(read["Title"]) : String.Empty;
+                    labels[i].Content = title;
+                }
             }
 
-            for(int i = 0; i < numberOfLabels; i++)
+            for (int i = 0; i < 300; i++)
             {
                 NoteStackPanel.Children.Add(labels[i]);
             }
