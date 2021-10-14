@@ -78,11 +78,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="NoteViewWindow.xaml.cs">
+      <DependentUpon>NoteViewWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SaveNoteContent.cs" />
     <Compile Include="MakeNewNote_Window.xaml.cs">
       <DependentUpon>MakeNewNote_Window.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SQLiteDataAccess.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -96,6 +98,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MakeNewNote_Window.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NoteViewWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

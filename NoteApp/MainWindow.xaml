@@ -59,10 +59,10 @@
         <Style TargetType="Label" x:Key="NoteTitleWithBorder">
             <Setter Property="Background" Value="#f5f3f0"/>
             <Setter Property="FontFamily" Value="Fonts/#Dosis"/>
-            <Setter Property="FontSize" Value="26"/>
+            <Setter Property="FontSize" Value="32"/>
             <Setter Property="FontWeight" Value="Medium"/>
             <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Top"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -99,7 +99,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
+            <RowDefinition  Height="2*"/>
             <RowDefinition Height="8*"/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
@@ -119,7 +119,7 @@
 
             <ScrollViewer>
                 <StackPanel Name="NoteStackPanel">
-                   
+                
                 </StackPanel>
 
             </ScrollViewer>
@@ -131,11 +131,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button Style="{StaticResource AddNewNoteButton}" VerticalAlignment="Center"
-                    HorizontalAlignment="Center" Grid.Column="0"/>
-            <Button Style="{StaticResource AddNewNoteButton}" VerticalAlignment="Center"
-                    HorizontalAlignment="Center" Grid.Column="1"
-                    />
+
             <Button Style="{StaticResource AddNewNoteButton}" VerticalAlignment="Center"
                     HorizontalAlignment="Center" Grid.Column="2" x:Name="createNewNote"
                     Click="createNewNote_Click"/>

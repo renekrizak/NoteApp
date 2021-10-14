@@ -104,6 +104,7 @@ namespace NoteApp
                     labels[i].Style = noteLabel.Style;
                     string title = FillLabelTitle(j);
                     labels[i].Content = title;
+                    
                 }
             }
 
