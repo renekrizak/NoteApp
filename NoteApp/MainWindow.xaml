@@ -119,7 +119,7 @@
 
             <ScrollViewer>
                 <StackPanel Name="NoteStackPanel">
-                
+                    <Label Style="{StaticResource NoteTitleWithBorder}"/>
                 </StackPanel>
 
             </ScrollViewer>

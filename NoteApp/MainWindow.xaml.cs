@@ -102,6 +102,7 @@ namespace NoteApp
                 {
                     labels[i] = new Label();
                     labels[i].Style = noteLabel.Style;
+                    labels[i].AddHandler(Label.MouseLeftButtonUpEvent, new RoutedEventHandler(loadNoteContent));
                     string title = FillLabelTitle(j);
                     labels[i].Content = title;
                     
@@ -130,5 +131,13 @@ namespace NoteApp
             newNoteWindow.Show();
 
         }
+
+        private void loadNoteContent(object sender, RoutedEventArgs e)
+        {
+            NoteViewWindow showLabelContent = new NoteViewWindow();
+            showLabelContent.Show();
+        }
+
+
     }
 }
