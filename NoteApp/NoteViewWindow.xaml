@@ -198,7 +198,7 @@
                Margin="0,0,0,-22.5">
             <StackPanel>
                 <TextBlock Style="{StaticResource TitleTextBlock}" Name="TitleLabelTextBlock" 
-                           Text="rgbdesyuibf sdeuyfb suy"/>
+                           />
                 <TextBox Style="{StaticResource TitleTextBox}" Name="TitleLabelTextBox" Visibility="Collapsed"/>
             </StackPanel>
         </Label>
@@ -213,7 +213,7 @@
         
         <Label Style="{StaticResource ContentLabel}" Grid.Row="1">
             <StackPanel>
-                <TextBlock Style="{StaticResource ContentTextBlock}" Name="ContelntLabelTextBlock"/>
+                <TextBlock Style="{StaticResource ContentTextBlock}" Name="ContentLabelTextBlock"/>
                 <TextBox Style="{StaticResource ContentTextBox}" Name="ContentLabelTextBox"  Visibility="Collapsed"/>
             </StackPanel>
         </Label>

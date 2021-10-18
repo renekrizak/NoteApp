@@ -102,10 +102,11 @@ namespace NoteApp
                 {
                     labels[i] = new Label();
                     labels[i].Style = noteLabel.Style;
-                    labels[i].AddHandler(Label.MouseLeftButtonUpEvent, new RoutedEventHandler(loadNoteContent));
+                    //labels[i].Name = i.ToString(); //Nazov pouzijem na to, aby som vedel v NoteViewWindow loadnut spravny Note pomocou ID(i)
+                    labels[i].AddHandler(Label.MouseLeftButtonUpEvent, new RoutedEventHandler(LoadNoteContent));
                     string title = FillLabelTitle(j);
                     labels[i].Content = title;
-                    
+                       
                 }
             }
 
@@ -132,7 +133,7 @@ namespace NoteApp
 
         }
 
-        private void loadNoteContent(object sender, RoutedEventArgs e)
+        private void LoadNoteContent(object sender, RoutedEventArgs e)
         {
             NoteViewWindow showLabelContent = new NoteViewWindow();
             showLabelContent.Show();
