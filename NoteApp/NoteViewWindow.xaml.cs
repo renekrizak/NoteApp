@@ -24,32 +24,37 @@ namespace NoteApp
     /// </summary>
     public partial class NoteViewWindow : Window
     {
+
+        
         public NoteViewWindow()
         {
             InitializeComponent();
-            LoadNoteContent();
+
         }
+
 
         private static string LoadConnectionString(string id = "Default")
         {
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;
         }
+        
+        
 
-
-
-        public void LoadNoteContent()
+        private void LoadNoteContent(object sender, EventArgs e)
         {
+            
+            
             SQLiteConnection conn = new SQLiteConnection(LoadConnectionString());
             SQLiteCommand cmd = conn.CreateCommand();
             conn.Open();
             SQLiteDataReader read;
-            cmd.CommandText = "SELECT * FROM Note ";
+            cmd.CommandText = "SELECT * FROM Note";
             read = cmd.ExecuteReader();
             read.Read();
             string title = read["Title"] != null ? Convert.ToString(read["Title"]) : string.Empty;
-            string content = read["Text"] != null ? Convert.ToString(read["Text"]) : string.Empty;
+            string content = read["Text"] != null ? Convert.ToString(read["Text"]) : string.Empty; 
             TitleLabelTextBlock.Text = title;
-            ContentLabelTextBlock.Text = content;
+              ContentLabelTextBlock.Text = content; 
         }
 
     }

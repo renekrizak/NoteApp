@@ -119,7 +119,7 @@
 
             <ScrollViewer>
                 <StackPanel Name="NoteStackPanel">
-                    <Label Style="{StaticResource NoteTitleWithBorder}"/>
+                    
                 </StackPanel>
 
             </ScrollViewer>
@@ -175,5 +175,8 @@
                Opacity="0.55" IsHitTestVisible="False"
                Visibility="Visible"
                />
+
+        <TextBlock Name="testForTitle" Opacity="0"/>
+        <TextBlock Name="testForContent" Opacity="0"/>
     </Grid>
 </Window>

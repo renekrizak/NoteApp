@@ -194,6 +194,9 @@
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
 
+        <TextBlock Name="LabelContent" Opacity="0"/>
+        <TextBlock Name="LabelTitle" Opacity="0"/>
+
         <Label Grid.Row="0" Style="{StaticResource TitleLabel}"
                Margin="0,0,0,-22.5">
             <StackPanel>
