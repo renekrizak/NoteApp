@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.Data.SQLite;
 using NoteApp;
 using System.Configuration;
+using System.Text.RegularExpressions;
 
 namespace NoteApp
 {
@@ -29,32 +30,63 @@ namespace NoteApp
         public NoteViewWindow()
         {
             InitializeComponent();
-
+            LoadNoteContent();
         }
 
+        
+        MainWindow win = new MainWindow();
+        public static string stringID = "";
 
         private static string LoadConnectionString(string id = "Default")
         {
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;
         }
-        
-        
 
-        private void LoadNoteContent(object sender, EventArgs e)
+
+        //Funkcia ktora mi premeni string z formatu Label+cislo na cisto string formatu cislo
+        private static string GetNumbers(string input)
         {
-            
-            
+            return new string(input.Where(c => char.IsDigit(c)).ToArray());
+        }
+
+        private void LoadNoteContent()
+        {
             SQLiteConnection conn = new SQLiteConnection(LoadConnectionString());
             SQLiteCommand cmd = conn.CreateCommand();
             conn.Open();
             SQLiteDataReader read;
-            cmd.CommandText = "SELECT * FROM Note";
+            //Vezme mi nazov labelu a nasledne ho prekonvertuje na int
+            stringID = win.getID();
+            string result = GetNumbers(stringID);
+            int id = 0;
+
+            try
+            {
+                id = Int32.Parse(result);
+            }
+            catch(FormatException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            //SQLite DB zacina od cisla 1, cize by som dostal no current row error ak by id bolo 0            
+            if(id==0)
+            {
+                cmd.CommandText = "SELECT Title, Text FROM Note WHERE ID=" + id+1;
+            }
+            else
+            {
+                cmd.CommandText = "SELECT Title, Text FROM Note WHERE ID=" + id;
+            }
+            
             read = cmd.ExecuteReader();
             read.Read();
+            testLabel.Content = id;
+            //string title = result;
             string title = read["Title"] != null ? Convert.ToString(read["Title"]) : string.Empty;
             string content = read["Text"] != null ? Convert.ToString(read["Text"]) : string.Empty; 
             TitleLabelTextBlock.Text = title;
-              ContentLabelTextBlock.Text = content; 
+            ContentLabelTextBlock.Text = content;
+            
         }
 
     }

@@ -131,6 +131,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+            <Label Name="TestLabel" Grid.Row="2"/>
 
             <Button Style="{StaticResource AddNewNoteButton}" VerticalAlignment="Center"
                     HorizontalAlignment="Center" Grid.Column="2" x:Name="createNewNote"

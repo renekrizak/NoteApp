@@ -17,18 +17,6 @@ using System.Data.SQLite;
 using NoteApp;
 using System.Configuration;
 
-/*  
-    18.10.2021 - Okamzite potrebujem spravit to, ze ked kliknem na note tak sa mi otvori spravny Note podla ID labelu, pokial nespravim toto
-    nebudem robit nic ine.
- */
-
-
-/*
-    13.10.2021 - Potrebujem spravit to, ze ked kliknem na poznamku tak sa mi pravdepodobne objavi nove okno v ktorom
-    bude aj content danej poznamky, dalej potrebujem spravit button ktory je schopny poznamku vymazat a upravit
-    a na koniec spravit search podla titlu poznamky, popripade aj contentu danej poznamky a ukaze ju na vrchu stack panelu.
-
- */
 
 namespace NoteApp
 {
@@ -41,7 +29,7 @@ namespace NoteApp
         public MainWindow()
         {
             InitializeComponent();
-            CreateAndLoadNotes();
+            CreateLabelAndLoadTitle();
         }
 
         /* Definicia db tabulky
@@ -51,13 +39,13 @@ namespace NoteApp
 	        "Text"	TEXT,
 	        PRIMARY KEY("ID" AUTOINCREMENT)
         ); */
-
+        //Connection string pre DB
         private static string LoadConnectionString(string id = "Default")
         {
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;
         }
 
-        private int GetMaxTableIndex()
+        public int GetMaxTableIndex()
         /*
          Funkcia na zistenei najvacsieho IDcka v databaze, nasledne toto maxID vyuzijem na vytvorenie labelov
          */
@@ -70,7 +58,77 @@ namespace NoteApp
             return maxID;
         }
 
-        public string FillLabelTitle(int j) //Funkcia ktora returne title danej poznamky podla ID (index j)
+        /*
+         Funkcia mi vytvori notes so vsetkymi potrebnymi parametrami a potom ich zobrazi na stackpanel
+         */
+
+        public void CreateLabelAndLoadTitle()
+        {
+            SQLiteConnection conn = new SQLiteConnection(LoadConnectionString());
+            SQLiteCommand cmd = conn.CreateCommand();
+            conn.Open();
+
+            Label noteLabel = new Label();
+            Style style = FindResource("NoteTitleWithBorder") as Style;
+            noteLabel.Style = style;
+            int numberOfLabels = GetMaxTableIndex();
+            Label[] labels = new Label[numberOfLabels];
+
+            for (int i = 0, j = 1; i < numberOfLabels; i++, j++)
+            {
+                string labelID = "Label" + i;
+                labels[i] = new Label();
+                labels[i].Style = noteLabel.Style;
+                labels[i].Name = labelID;
+                string title = ReadLabelTitle(j);
+                labels[i].Content = title;  
+                string id = labels[i].Name;
+                labels[i].AddHandler(Label.MouseLeftButtonUpEvent, new RoutedEventHandler(LabelClick));
+            }
+
+            for (int i = 0; i < numberOfLabels; i++)
+            {
+                NoteStackPanel.Children.Add(labels[i]);
+            }
+        }
+
+        //   public delegate string PassLabelName(string name);
+
+        //   public event PassLabelName StringReturnEvent;
+
+        
+        public static string labelID = "";
+        public int clickCount = 0;
+
+        /*
+          Event handler na otvorenie noveho okna + odoslanie mena labelu na to,
+          aby som mohol najst ktory label otvorit z databazy
+         */
+        private void LabelClick(object sender, EventArgs e)
+        {
+            NoteViewWindow showLabelContent = new NoteViewWindow();
+            Label noteLabel = sender as Label;
+            labelID = ((Label)sender).Name;
+            if(noteLabel.Name != null)
+            {
+                if(clickCount != 0)
+                {
+                    showLabelContent.Name = ((Label)sender).Name;
+                    showLabelContent.Show();
+                    TestLabel.Content = labelID;
+                }
+                else
+                {
+                    clickCount++;
+                }
+            }
+        }
+        public string getID()
+        {
+            return labelID;
+        }
+
+        public string ReadLabelTitle(int j) //Funkcia ktora returne title danej poznamky podla ID (index j)
         {
 
             SQLiteConnection conn = new SQLiteConnection(LoadConnectionString());
@@ -82,55 +140,6 @@ namespace NoteApp
             read.Read();
             string title = read["Title"] != null ? Convert.ToString(read["Title"]) : string.Empty;
             return title;
-        }
-
-
-        public void CreateAndLoadNotes()
-        { /* 13.10.2021
-                Momentalne mi funkcia vytvori spravny pocet notes a nasledne im cez funkciu FillLabelTitle()
-                nacita spravny title z databazy. Potrebujem neskor spravit to, aby notes vytvaralo asynchronne za behu
-                aplikacie a nie iba pocas spustenia aplikacie.
-           */
-            SQLiteConnection conn = new SQLiteConnection(LoadConnectionString());
-            SQLiteCommand cmd = conn.CreateCommand();
-            conn.Open();
-
-            SQLiteDataReader read;
-
-            Label noteLabel = new Label();          //Cast kodu ktora vytvori label + pole pre dane labels
-            Style style = this.FindResource("NoteTitleWithBorder") as Style;
-            noteLabel.Style = style;
-            int numberOfLabels = GetMaxTableIndex();
-            Label[] labels = new Label[numberOfLabels];
-            var labelDict = new Dictionary<int, Label>() { };
-
-            cmd.CommandText = "SELECT * FROM Note";
-
-            read = cmd.ExecuteReader();
-            while (read.Read()) {                   //Vytvara labels na zaklade poctu ID's v databaze 
-                for (int i = 0, j = 1; i < numberOfLabels; i++, j++)
-                {
-                    /*     labels[i] = new Label();
-                         labels[i].Style = noteLabel.Style;
-                        labels[i].Name = Convert.ToString(j); //Nazov pouzijem na to, aby som vedel v NoteViewWindow loadnut spravny Note pomocou ID(i)
-                         labels[i].AddHandler(MouseLeftButtonUpEvent, new RoutedEventHandler(LoadNoteContent));
-                         string title = FillLabelTitle(j);
-                         labels[i].Content = title;  */
-
-                    labelDict[i] = new Label();
-                    labelDict[i].Style = noteLabel.Style;
-                    string title = FillLabelTitle(j);
-                    labelDict[i].Content = title;
-                    labelDict[i].AddHandler(MouseLeftButtonUpEvent, new RoutedEventHandler(LoadNoteContent));
-
-                }
-            }
-
-            for (int i = 0; i < numberOfLabels; i++) //Vlozi a zobrazi labels v stackpanely NoteStackPanel
-            {
-                NoteStackPanel.Children.Add(labelDict[i]);
-            }
-
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)    //Zakladna drag move funkcionalita aby som vedel s aplikaciou hybat
@@ -147,13 +156,6 @@ namespace NoteApp
 
             newNoteWindow.Show();
 
-        }
-
-        private void LoadNoteContent(object sender, RoutedEventArgs e)
-        {
-            NoteViewWindow noteView = new NoteViewWindow();
-
-            noteView.Show();
         }
 
     }

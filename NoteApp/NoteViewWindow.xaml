@@ -213,7 +213,8 @@
                 HorizontalAlignment="Left" VerticalAlignment="Center" Margin="80,0,0,0"
                 />
 
-        
+        <Label Grid.Row="1" Name="testLabel"/>
+
         <Label Style="{StaticResource ContentLabel}" Grid.Row="1">
             <StackPanel>
                 <TextBlock Style="{StaticResource ContentTextBlock}" Name="ContentLabelTextBlock"/>

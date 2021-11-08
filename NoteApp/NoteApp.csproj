@@ -82,6 +82,7 @@
     <Compile Include="NoteViewWindow.xaml.cs">
       <DependentUpon>NoteViewWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ReadWrite.cs" />
     <Compile Include="SaveNoteContent.cs" />
     <Compile Include="MakeNewNote_Window.xaml.cs">
       <DependentUpon>MakeNewNote_Window.xaml</DependentUpon>
