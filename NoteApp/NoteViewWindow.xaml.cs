@@ -69,15 +69,24 @@ namespace NoteApp
                 Console.WriteLine(e.Message);
             }
             //SQLite DB zacina od cisla 1, cize by som dostal no current row error ak by id bolo 0            
-            if(id==0)
+           /* if(id==0)
             {
                 cmd.CommandText = "SELECT Title, Text FROM Note WHERE ID=" + id+1;
+            }
+            else if(id != 0)
+            {
+                cmd.CommandText = "SELECT Title, Text FROM Note WHERE ID=" + id+1;
+            }*/
+
+            if(id== 0)
+            {
+                cmd.CommandText = "SELECT Title, Text FROM Note WHERE ID=" + 1;
             }
             else
             {
                 cmd.CommandText = "SELECT Title, Text FROM Note WHERE ID=" + id;
             }
-            
+                
             read = cmd.ExecuteReader();
             read.Read();
             testLabel.Content = id;

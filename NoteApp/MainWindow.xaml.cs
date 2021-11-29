@@ -76,12 +76,13 @@ namespace NoteApp
 
             for (int i = 0, j = 1; i < numberOfLabels; i++, j++)
             {
-                string labelID = "Label" + i;
+                int temp = i + 1;
+                string labelID = "Label" + temp;
                 labels[i] = new Label();
                 labels[i].Style = noteLabel.Style;
                 labels[i].Name = labelID;
                 string title = ReadLabelTitle(j);
-                labels[i].Content = title;  
+                labels[i].Content = title;
                 string id = labels[i].Name;
                 labels[i].AddHandler(Label.MouseLeftButtonUpEvent, new RoutedEventHandler(LabelClick));
             }
@@ -96,7 +97,6 @@ namespace NoteApp
 
         //   public event PassLabelName StringReturnEvent;
 
-        
         public static string labelID = "";
         public int clickCount = 0;
 
@@ -111,16 +111,9 @@ namespace NoteApp
             labelID = ((Label)sender).Name;
             if(noteLabel.Name != null)
             {
-                if(clickCount != 0)
-                {
-                    showLabelContent.Name = ((Label)sender).Name;
-                    showLabelContent.Show();
-                    TestLabel.Content = labelID;
-                }
-                else
-                {
-                    clickCount++;
-                }
+                showLabelContent.Name = ((Label)sender).Name;
+                showLabelContent.Show();
+                TestLabel.Content = labelID;
             }
         }
         public string getID()
@@ -130,7 +123,6 @@ namespace NoteApp
 
         public string ReadLabelTitle(int j) //Funkcia ktora returne title danej poznamky podla ID (index j)
         {
-
             SQLiteConnection conn = new SQLiteConnection(LoadConnectionString());
             SQLiteCommand cmd = conn.CreateCommand();
             conn.Open();
@@ -157,6 +149,5 @@ namespace NoteApp
             newNoteWindow.Show();
 
         }
-
     }
 }
