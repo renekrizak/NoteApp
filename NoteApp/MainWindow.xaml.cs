@@ -67,7 +67,7 @@ namespace NoteApp
             SQLiteConnection conn = new SQLiteConnection(LoadConnectionString());
             SQLiteCommand cmd = conn.CreateCommand();
             conn.Open();
-
+            
             Label noteLabel = new Label();
             Style style = FindResource("NoteTitleWithBorder") as Style;
             noteLabel.Style = style;
