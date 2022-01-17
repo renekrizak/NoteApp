@@ -207,7 +207,8 @@
         </Label>
 
         <Button Style="{StaticResource DeleteButtonStyle}" Content="Delete" Grid.Row="2"
-                HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,80,0"/>
+                HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,80,0"
+                Click="deleteCurrentNote"/>
 
         <Button Style="{StaticResource EditButtonStyle}" Content="Edit" Grid.Row="2"
                 HorizontalAlignment="Left" VerticalAlignment="Center" Margin="80,0,0,0"

@@ -98,5 +98,27 @@ namespace NoteApp
             
         }
 
+        private void deleteCurrentNote(object sender, RoutedEventArgs e)
+        {
+            SQLiteConnection conn = new SQLiteConnection(LoadConnectionString());
+            SQLiteCommand cmd = conn.CreateCommand();
+            conn.Open();
+            stringID = win.getID();
+            string result = GetNumbers(stringID);
+            int id = 0;
+            try
+            {
+                id = Int32.Parse(result);
+            }
+            catch (FormatException f)
+            {
+                Console.WriteLine(f.Message);
+            }
+            cmd.CommandText = "DELETE FROM Note WHERE ID=" + id;
+            cmd.ExecuteNonQuery();
+            this.Close();
+        }
+
+
     }
 }

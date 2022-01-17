@@ -30,14 +30,15 @@ namespace NoteApp
         {
             InitializeComponent();
             CreateLabelAndLoadTitle();
+            //delAll();
         }
-
+            
         /* Definicia db tabulky
-        CREATE TABLE "Note" (
+       CREATE TABLE "Note" (
 	        "ID"	INTEGER NOT NULL UNIQUE,
 	        "Title"	TEXT NOT NULL UNIQUE,
 	        "Text"	TEXT,
-	        PRIMARY KEY("ID" AUTOINCREMENT)
+	        PRIMARY KEY("ID")
         ); */
         //Connection string pre DB
         private static string LoadConnectionString(string id = "Default")
@@ -84,12 +85,12 @@ namespace NoteApp
                 string title = ReadLabelTitle(j);
                 labels[i].Content = title;
                 string id = labels[i].Name;
-                labels[i].AddHandler(Label.MouseLeftButtonUpEvent, new RoutedEventHandler(LabelClick));
-            }
-
-            for (int i = 0; i < numberOfLabels; i++)
-            {
-                NoteStackPanel.Children.Add(labels[i]);
+                if (labels[i].Content != null && labels[i].Content != string.Empty)
+                {
+                    NoteStackPanel.Children.Add(labels[i]);
+                    labels[i].AddHandler(Label.MouseLeftButtonUpEvent, new RoutedEventHandler(LabelClick));
+                }
+                
             }
         }
 
@@ -130,8 +131,34 @@ namespace NoteApp
             cmd.CommandText = "SELECT ID, Title FROM Note WHERE ID=" + j;
             read = cmd.ExecuteReader();
             read.Read();
-            string title = read["Title"] != null ? Convert.ToString(read["Title"]) : string.Empty;
+            string title;
+            try 
+            {
+                title = Convert.ToString(read["Title"]);
+            }
+            catch (System.InvalidOperationException e)
+            {
+                title = "";
+            }
+            /*if(read["Title"] == null)
+            {
+                title = " ";
+            }
+            else
+            {
+                title = Convert.ToString(read["Title"]);
+            }*/
+            //title = read["Title"] != null ? Convert.ToString(read["Title"]) : string.Empty;
             return title;
+        } 
+
+        private void delAll()
+        {
+            SQLiteConnection conn = new SQLiteConnection(LoadConnectionString());
+            SQLiteCommand cmd = conn.CreateCommand();
+            conn.Open();
+            cmd.CommandText = "DELETE FROM Note";
+            cmd.ExecuteNonQuery();
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)    //Zakladna drag move funkcionalita aby som vedel s aplikaciou hybat
