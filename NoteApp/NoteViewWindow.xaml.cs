@@ -78,7 +78,7 @@ namespace NoteApp
                 cmd.CommandText = "SELECT Title, Text FROM Note WHERE ID=" + id+1;
             }*/
 
-            if(id== 0)
+            if(id == 0)
             {
                 cmd.CommandText = "SELECT Title, Text FROM Note WHERE ID=" + 1;
             }
