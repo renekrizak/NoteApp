@@ -43,10 +43,17 @@ namespace NoteApp
         }
 
 
+
         //Funkcia ktora mi premeni string z formatu Label+cislo na cisto string formatu cislo
         private static string GetNumbers(string input)
         {
             return new string(input.Where(c => char.IsDigit(c)).ToArray());
+        }
+
+      private void EditNote(object sender, RoutedEventArgs e)
+        {
+            EditNoteButton.Content = "Save";
+            
         }
 
         private void LoadNoteContent()

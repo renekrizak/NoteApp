@@ -200,9 +200,9 @@
         <Label Grid.Row="0" Style="{StaticResource TitleLabel}"
                Margin="0,0,0,-22.5">
             <StackPanel>
+                <TextBox Style="{StaticResource TitleTextBox}" Name="TitleLabelTextBox" Visibility="Collapsed"/>
                 <TextBlock Style="{StaticResource TitleTextBlock}" Name="TitleLabelTextBlock" 
                            />
-                <TextBox Style="{StaticResource TitleTextBox}" Name="TitleLabelTextBox" Visibility="Collapsed"/>
             </StackPanel>
         </Label>
 
@@ -210,16 +210,17 @@
                 HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,80,0"
                 Click="deleteCurrentNote"/>
 
-        <Button Style="{StaticResource EditButtonStyle}" Content="Edit" Grid.Row="2"
+        <Button Style="{StaticResource EditButtonStyle}" Name="EditNoteButton" Content="Edit" Grid.Row="2"
                 HorizontalAlignment="Left" VerticalAlignment="Center" Margin="80,0,0,0"
-                />
+                Click="EditNote"/>
 
         <Label Grid.Row="1" Name="testLabel"/>
 
         <Label Style="{StaticResource ContentLabel}" Grid.Row="1">
             <StackPanel>
-                <TextBlock Style="{StaticResource ContentTextBlock}" Name="ContentLabelTextBlock"/>
                 <TextBox Style="{StaticResource ContentTextBox}" Name="ContentLabelTextBox"  Visibility="Collapsed"/>
+                <TextBlock Style="{StaticResource ContentTextBlock}" Name="ContentLabelTextBlock"/>
+                
             </StackPanel>
         </Label>
 
