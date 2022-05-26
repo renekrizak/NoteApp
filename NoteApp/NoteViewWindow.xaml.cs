@@ -17,7 +17,7 @@ using System.Data.SQLite;
 using NoteApp;
 using System.Configuration;
 using System.Text.RegularExpressions;
-
+//
 namespace NoteApp
 {
     /// <summary>
@@ -25,8 +25,6 @@ namespace NoteApp
     /// </summary>
     public partial class NoteViewWindow : Window
     {
-
-        
         public NoteViewWindow()
         {
             InitializeComponent();

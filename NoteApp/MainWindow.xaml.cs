@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 using System.Data.SQLite;
 using NoteApp;
 using System.Configuration;
-
+//
 
 namespace NoteApp
 {
